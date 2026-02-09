@@ -1,8 +1,8 @@
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { FlashcardData, WordData } from '../types';
 import { getRandomGlobalWords } from '../utils/dictionary';
-import { ArrowPathIcon, CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
+import { ArrowPathIcon, CheckCircleIcon } from '@heroicons/react/24/solid';
 import { LionCool, OwlDr, RabbitGirl } from './AnimalIcons';
 
 interface QuizModuleProps {
@@ -22,7 +22,6 @@ const QuizModule: React.FC<QuizModuleProps> = ({ savedVocab }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
-  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
   // Audio Context for generating sound effects without external files
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -113,7 +112,6 @@ const QuizModule: React.FC<QuizModuleProps> = ({ savedVocab }) => {
     setCurrentIndex(0);
     setScore(0);
     setSelectedOption(null);
-    setIsCorrect(null);
   };
 
   const handleOptionClick = (index: number) => {
@@ -123,7 +121,6 @@ const QuizModule: React.FC<QuizModuleProps> = ({ savedVocab }) => {
     const correct = index === currentQ.correctIndex;
 
     setSelectedOption(index);
-    setIsCorrect(correct);
     
     if (correct) {
       setScore(s => s + 1);
@@ -137,7 +134,6 @@ const QuizModule: React.FC<QuizModuleProps> = ({ savedVocab }) => {
       if (currentIndex < questions.length - 1) {
         setCurrentIndex(c => c + 1);
         setSelectedOption(null);
-        setIsCorrect(null);
       } else {
         setGameState('finished');
       }
